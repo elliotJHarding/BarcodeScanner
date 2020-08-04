@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">BarcodeScanner</string>
     <string name="action_settings">Settings</string>
+    <string name="submit">Scan</string>
+    <string name="scan_instructions">Scan a Barcode</string>
+    <string name="scan_status">Scanning</string>
+    <string name="scan_result">Data:</string>
+    <string name="scan_timeout">Scan timed out</string>
 </resources>
