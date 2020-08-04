@@ -1,5 +1,6 @@
 package com.vestcom.barcodescanner;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 
 import com.extbcr.scannersdk.BarcodeData;
@@ -18,11 +19,14 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import android.util.Log;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "ScannerSDK-MainActivity";
 
     private TextView scanResult;
+    private TextView scanData;
     private TextView scanInstructions;
     private TextView scanStatus;
     private TextView scanTimeout;
@@ -39,10 +43,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        scanResult = findViewById(R.id.scan_result_text);
-        scanInstructions = findViewById(R.id.scan_instructions);
-        scanStatus = findViewById(R.id.scan_status);
-        scanTimeout = findViewById(R.id.scan_timeout_text);
+        Log.i(TAG, "oncreate Thread ID: " + Thread.currentThread().getId());
+
+        scanResult = (TextView) findViewById(R.id.scan_result_text);
+        scanInstructions = (TextView) findViewById(R.id.scan_instructions);
+        scanStatus = (TextView) findViewById(R.id.scan_status);
+        scanTimeout = (TextView) findViewById(R.id.scan_timeout_text);
+
+        scanProgress = (ProgressBar) findViewById(R.id.progressBar);
+
+        scan_setup();
 
         FloatingActionButton fab = findViewById(R.id.scan_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,40 +62,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        scan();
     }
 
-    private void scan() {
+    private void scan_setup() {
         barcodeManager = new BarcodeManager(this);
         barcodeManager.init();
 
         eventListener = new EventListener() {
             @Override
             public void onReadData(BarcodeData barcodeData) {
+
+                scanProgress.setVisibility(View.GONE);
+                scanStatus.setVisibility(View.GONE);
+
                 scanResult.setVisibility(View.VISIBLE);
+                scanData.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onTimeout() {
+
+                scanProgress.setVisibility(View.GONE);
+                scanStatus.setVisibility(View.GONE);
+
                 scanTimeout.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onStart() {
-                scanInstructions.setVisibility(View.INVISIBLE);
-                scanTimeout.setVisibility(View.INVISIBLE);
+                scanTimeout.setVisibility(View.GONE);
+                scanInstructions.setVisibility(View.GONE);
+                scanResult.setVisibility(View.GONE);
 
                 scanStatus.setVisibility(View.VISIBLE);
                 scanProgress.setVisibility(View.VISIBLE);
-
-
             }
 
             @Override
             public void onStop() {
-                scanStatus.setVisibility(View.INVISIBLE);
-                scanProgress.setVisibility(View.INVISIBLE);
-
+                scanProgress.setVisibility(View.GONE);
+                scanStatus.setVisibility(View.GONE);
             }
 
             @Override
@@ -98,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 serverConnnect = false;
             }
         };
+        barcodeManager.addListener(eventListener);
     }
 
     @Override
