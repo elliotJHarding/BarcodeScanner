@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import android.util.Log;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "ScannerSDK-MainActivity";
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         scanInstructions = (TextView) findViewById(R.id.scan_instructions);
         scanStatus = (TextView) findViewById(R.id.scan_status);
         scanTimeout = (TextView) findViewById(R.id.scan_timeout_text);
+        scanData = (TextView) findViewById(R.id.scan_data_text);
 
         scanProgress = (ProgressBar) findViewById(R.id.progressBar);
 
@@ -74,6 +77,11 @@ public class MainActivity extends AppCompatActivity {
 
                 scanProgress.setVisibility(View.GONE);
                 scanStatus.setVisibility(View.GONE);
+
+                int id = barcodeData.getCodeID();
+                String data = barcodeData.getText();
+
+                scanData.setText("TypeId: " + id + "\n" + data);
 
                 scanResult.setVisibility(View.VISIBLE);
                 scanData.setVisibility(View.VISIBLE);
