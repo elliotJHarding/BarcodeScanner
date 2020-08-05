@@ -95,6 +95,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/imageSuccess"
+        android:contentDescription="@string/scan_image_success"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/scan_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
+
+    <ImageView
+        android:id="@+id/imageFail"
+        android:contentDescription="@string/scan_image_failure"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/scan_fab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_clear_24" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

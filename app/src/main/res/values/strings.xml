@@ -4,6 +4,8 @@
     <string name="submit">Scan</string>
     <string name="scan_instructions">Scan a Barcode</string>
     <string name="scan_status">Scanning</string>
-    <string name="scan_result">Data:</string>
+    <string name="scan_result">Success</string>
     <string name="scan_timeout">Scan timed out</string>
+    <string name="scan_image_success">Success tick</string>
+    <string name="scan_image_failure">Failure cross</string>
 </resources>
