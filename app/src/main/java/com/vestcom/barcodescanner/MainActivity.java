@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.extbcr.scannersdk.BarcodeData;
 import com.extbcr.scannersdk.BarcodeManager;
+import com.extbcr.scannersdk.CodeID;
 import com.extbcr.scannersdk.EventListener;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -105,9 +106,10 @@ public class MainActivity extends AppCompatActivity {
                 scanStatus.setVisibility(View.GONE);
 
                 int id = barcodeData.getCodeID();
+                String type = CodeID.CodeIDtoString(id);
                 String data = barcodeData.getText();
 
-                scanData.setText("Type: " + id + "\nData: " + data);
+                scanData.setText("Type: " + type + "\nData: " + data);
                 barcodeManager.stopDecode();
 
                 scanResult.setVisibility(View.VISIBLE);
