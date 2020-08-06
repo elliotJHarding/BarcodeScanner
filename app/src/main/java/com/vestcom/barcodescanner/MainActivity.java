@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = "ScannerSDK-MainActivity";
+    private static final String TAG = "Scanner-MainActivity";
 
     // UI Elements
     private TextView scanResult;
@@ -65,34 +65,31 @@ public class MainActivity extends AppCompatActivity {
         imageSuccess = (ImageView) findViewById(R.id.imageSuccess);
         imageFailure = (ImageView) findViewById(R.id.imageFail);
 
-        // Init Scanner Handlers
-        scan_setup();
-
-        // Set action for FAB
-        FloatingActionButton fab = findViewById(R.id.scan_fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            try {
-                if (serverConnect) {
-                    barcodeManager.startDecode();
-                }
-            } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
-            }
-            }
-        });
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         // Connect to ScannerServer
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        barcodeManager.stopDecode();
+        barcodeManager.deinit();
+        barcodeManager.removeListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(TAG, "stopDecode onResume");
+        scan_setup();
         barcodeManager.init();
-
-        barcodeManager.stopDecode(); // prevents scan failing to fire without timeout
-
+        fabSetup();
+        barcodeManager.stopDecode();
     }
 
     private void scan_setup() {
@@ -161,6 +158,25 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         barcodeManager.addListener(eventListener);
+    }
+
+    private void fabSetup() {
+        // Set action for FAB
+        FloatingActionButton fab = findViewById(R.id.scan_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    if (serverConnect) {
+                        barcodeManager.startDecode();
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, e.getMessage());
+                }
+            }
+        });
+
+
     }
 
 
